@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{REQUEST_URI} !index\.php$
+    RewriteCond %{REQUEST_URI} !js_route\.php$
+    RewriteRule ^(.*)\.(php|inc)$ http://my.soso.com/404.html [R,L]
+    
+    RewriteRule ^(js/.*\.js)$ js_route.php?_URL_=$1 [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?_URL_=$1 [QSA,L]
+</IfModule>

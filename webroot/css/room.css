@@ -1,0 +1,110 @@
+a:link{
+	text-decoration: none;
+	color: blue;
+}
+
+a:visited {
+	text-decoration:none;
+	color: blue;
+}
+
+a:active {
+	text-decoration:blink;
+}
+
+a:hover {
+	text-decoration:underline;
+	color: red;
+}
+
+
+
+html,body,*{
+        font-family:"serif";
+        font-size: 12px;
+}
+
+h1 {
+	font-size: 15px;
+}
+
+.weekday {
+	font-size: 9pt;
+	color: #FF0000;
+	text-align: center;
+}
+.normalday {
+	font-size: 9pt;
+	color: #000000;
+	   text-align: center;
+}
+.weekdaytoday {
+	font-size: 9pt;
+	color: #FF0000;
+   	text-align: center;
+	background-color: #FFD9D9;
+	font-weight: bold;
+}
+.normaldaytoday {
+	font-size: 9pt;
+	color: #000000;
+	text-align: center;
+	background-color: #DDDDDD;
+	font-weight: bold;
+}
+.othermonth {
+	font-size: 9pt;
+	font-style: italic;
+	color: #999999;
+	text-align: center;
+}
+
+.detail_label{
+	/*width:180px;*/
+	color: #666666;
+    padding: 0 4px;
+	font-weight:bold;
+}
+
+table{
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+table td,table th{
+	border: 1px solid #8cacbb;
+	padding: 5px;
+}
+
+table.weekdays{
+	width:800px;
+}
+
+table.weekdays td.used{
+	background-color:#fffd6e;
+	width:95px;
+	cursor:help;
+}
+
+table.weekdays td.used:hover{
+   color:#660000;
+  	font-size: 1.3em;
+	font-weight:bold;
+}
+
+table.weekdays th.day{
+	width:95px;
+}
+
+table.weekdays td.notUsed{
+    cursor:pointer;
+	width:95px;
+    /*background-color:#ffffff;*/
+}
+
+table.weekdays td.onMouse{
+    cursor:pointer;
+    background-color: #ffff00;
+}
+
+

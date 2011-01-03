@@ -17,13 +17,13 @@
         <delete dir="${dir.release}" includeemptydirs="true" verbose="false" failonerror="true"/>
         <delete file="${project.basedir}/release.tgz" failonerror="true"/>
         <mkdir dir="${dir.release}" />
-        <mkdir dir="${dir.release}/my.soso.com" />
+        <mkdir dir="${dir.release}/calendar.soso.com" />
         <copy todir="${dir.release}">
             <fileset dir="${project.basedir}">
                 <include name="deploy.sh"/>
             </fileset>
         </copy>
-        <copy todir="${dir.release}/my.soso.com">
+        <copy todir="${dir.release}/calendar.soso.com">
             <fileset dir="${project.basedir}">
                 <include name="app/**"/>
                 <include name="winphp/**"/>
@@ -35,19 +35,12 @@
                 <exclude name="webroot/tiles/**"/>
                 <exclude name="webroot/js_route.php"/>
                 <exclude name="**/DEBUG"/>
-                <exclude name="app/model/commonsite/navsites.php"/>
                 <exclude name="**/.svn/**"/>
-                <exclude name="**/.tmp**"/>
-                <exclude name="config/top_share_doc"/>
-                <exclude name="config/biz.txt"/>
-                <exclude name="config/top_sub_word"/>
-                <exclude name="config/keysub_hotShareUser.inc"/>
-                <exclude name="config/recommend.inc"/>
-                <exclude name="config/recommendSearch.inc "/>
+				<exclude name=".git/**"/>
                 <exclude name="**/DEBUG"/>
             </fileset>
         </copy>
-        <exec command="${php.command} ${project.basedir}/tools/staticFileProcessor.php ${project.basedir}/webroot/js ${project.basedir}/release/my.soso.com/webroot/js"
+        <exec command="${php.command} ${project.basedir}/tools/staticFileProcessor.php ${project.basedir}/webroot/js ${project.basedir}/release/calendar.soso.com/webroot/js"
          checkreturn="true"/>
         <exec command="${sh.command} version.sh" dir="${project.basedir}" checkreturn="true"/>
         <exec command="find  . -name '*.js' -exec java -jar ${project.basedir}/tools/yuicompressor-2.4.2.jar {} --charset gbk  -o {} \;" dir="${dir.release}" checkreturn="true"/>
@@ -56,15 +49,10 @@
         <tar destfile="${project.basedir}/release.tgz" compression="gzip">
             <fileset dir="${dir.release}">
                 <include name="deploy.sh"/>
-                <include name="my.soso.com/**"/>
+                <include name="calendar.soso.com/**"/>
             </fileset>
         </tar>
 
-    </target>
-    <target name="publish">
-        <phingcall target="dist"/>
-        <exec command="scp -i ../10.1.146.130.key release.tgz soso@10.1.146.130:/tmp/penny/my.soso.com" dir="${project.basedir}" checkreturn="true" passthru="true"/>
-        <exec command="ssh -i ../10.1.146.130.key soso@10.1.146.130 'cd /tmp/penny/my.soso.com;tar xvf release.tgz;rm my.soso.com/webroot/.htaccess;cp -R my.soso.com/* /usr/local/soso/my.soso.com '" dir="${project.basedir}" checkreturn="true" passthru="true"/>
     </target>
 
 </project>

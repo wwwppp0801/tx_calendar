@@ -15,6 +15,27 @@ class Utils {
     public static function _decodeURIComponent($str) {
         return mb_convert_encoding(rawurldecode($str), 'GBK', 'UTF-8');
     }
+
+	public function convertDate($date=null){
+	  if(!isset($date) || count(explode('-',$date))<3){
+		return date('Y-m-d');
+	  }
+	  $arr=explode('-',$date);
+	  $year=$arr[0];
+	  $month=$arr[1];
+	  $day=$arr[2];
+	  return date('Y-m-d',mktime(0, 0, 0, $month, $day, $year));
+	}
+
+	public function convertTime($time){
+	  if(!isset($time)){
+		return date('G'); 
+	  }
+	  $arr=explode(':',$time);
+	  $hour=$arr[0];
+	  $min=0;
+	  return date('G',mktime($hour, $min, 0, 0, 0, 0));
+	}
     
     
     public static function curlGet($url, $timeout = 1, $headerAry = '') {

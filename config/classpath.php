@@ -2,25 +2,19 @@
 define("ROOT_PATH", dirname(dirname(__FILE__)));
 function __autoload($classname)
 {
-    static $classpath = array("Smarty"=>"/usr/local/soso/libsoso_ver1.0/smarty/Smarty.class.php",
-             "Soso_Logger"=>"/usr/local/soso/libsoso_ver1.0/Logger.class.php",
+    static $classpath = array("Smarty"=>"/usr/share/php/smarty/Smarty.class.php",
              "UrlMapper"=>"winphp/base/UrlMapper.class.php",
              "SystemException"=>"winphp/Exception.class.php",
              "BizException"=>"winphp/Exception.class.php",
              "ModelAndViewException"=>"winphp/Exception.class.php",
             "Interceptor"=>"winphp/base/Interceptor.class.php",
-    "WinRequest"=>"winphp/WinRequest.class.php",
+			"WinRequest"=>"winphp/WinRequest.class.php",
              "BaseController"=>"winphp/base/BaseController.class.php",
              "DefaultView"=>"winphp/base/DefaultView.class.php",
              "DefaultViewSetting"=>"config/DefaultViewSetting.class.php",
-            
-    "Utils"=>"lib/Utils.class.php",
-             "BaseDataParser"=>"lib/BaseDataParser.class.php",
-             "Balancer"=>"lib/Balancer.class.php",
-             "XmlToArray"=>"lib/XmlToArray.class.php",
-             "ServiceAPI"=>"lib/ServiceAPI.class.php", 
-			 "DirtyManager"=>"lib/DirtyManager.class.php",
-             "BaseDataUtils"=>'lib/BaseDataUtils.class.php');
+			"Utils"=>"lib/Utils.class.php",
+             "Soso_Logger"=>"lib/Logger.class.php",
+		 );
     $file = $classpath[$classname];
     if (! empty($file))
     {

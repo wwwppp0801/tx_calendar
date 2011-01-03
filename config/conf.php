@@ -13,10 +13,12 @@ else
     Soso_Logger::setLevel(1);
 }
 
-define("LOG_PATH", ROOT_PATH."/log/");
+define("LOG_PATH", ROOT_PATH."/logs/");
 define("MASTER_PAGE", 0);
 define("GUEST_PAGE", 1);
 define("MODEL_SUFFIX", "Model");
 define("VERSION", 921);
 define("IS_DEBUG", $IS_DEBUG);
+session_start();
 
+$GLOBALS["DSN"]="sqlite:".ROOT_PATH."/db/room.db";

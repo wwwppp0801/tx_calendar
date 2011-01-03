@@ -1,4 +1,5 @@
 <?php 
+
 define('ROOT_PATH', dirname(dirname(__FILE__)));
 require (ROOT_PATH."/config/classpath.php");
 require (ROOT_PATH."/config/conf.php");
@@ -14,12 +15,13 @@ try
 }
 catch(SystemException $e)
 {
-    header("HTTP/1.1 404 Not Found");
-    header("Status: 404 Not Found");
     if ($IS_DEBUG)
-    {
+	{
         echo $e;
-    }
+	}else{
+		header("HTTP/1.1 404 Not Found");
+		header("Status: 404 Not Found");
+	}
 }
 print $output;
 

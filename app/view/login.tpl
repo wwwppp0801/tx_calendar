@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>soso calendar - 登录 - <{$date}></title>
-<link href="room.css" rel="stylesheet" type="text/css">
+<link href="/css/room.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .style1 {font-size: 12px}

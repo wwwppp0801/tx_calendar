@@ -32,5 +32,6 @@ class UserModel{
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		$user=	$stmt->fetch();
 		$user['isAdmin']=$user['name']=="admin";
+		return $user;
 	}
 }

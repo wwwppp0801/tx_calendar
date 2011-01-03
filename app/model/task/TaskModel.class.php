@@ -24,4 +24,78 @@ class TaskModel{
 		}
 		return array($days,$record);
 	}
+
+	public function delete($id){
+		try{
+			$dbh = new PDO($GLOBALS["DSN"]);
+			$stmt = $dbh->prepare('delete from record where id = ?');
+			$stmt->bindParam(1, $id, PDO::PARAM_INT);
+			$stmt->execute();
+		}catch (PDOException $e) {
+			$this->setMessage($e->getMessage());:
+		}
+	}
+
+	public function get($id){
+		$dbh = new PDO($GLOBALS["DSN"]);
+		$sql = "SELECT * FROM record where id = $id";
+		$rs = $dbh->query($sql);
+		$rs->setFetchMode(PDO::FETCH_ASSOC);
+		return $rs->fetch();
+	}
+
+	public function insert($name,$rec_date,$startTime,$endTime,$description){
+		if($startTime>=$endTime){
+			$this->setMessage("开始时间必须在结束时间之前");
+			return false;
+		}
+		
+		if($startTime<8 || $endTime>22){
+			$this->setMessage("只能预订8点到22点之间的时间");
+			return false;
+		}
+		
+		$dbh = new PDO($GLOBALS["DSN"]);
+		
+		//检查是否与其他预定冲突
+		$sql="SELECT count(*) FROM record where rec_date = '$rec_date' and 
+			  ((startTime<'$startTime' and endTime>'$startTime') or 
+			  (startTime<'$endTime' and endTime>'$endTime') or
+			  ((startTime>='$startTime' and endTime<='$endTime'))
+			  )";
+		$rs=$dbh->query($sql);
+		$count=$rs->fetch();
+		if ($count[0]>0){
+			$this->setMessage("输入时间有误，与其它预订时间冲突");
+			return false;
+		}
+
+		//加入新的预定	
+		try{
+			$stmt = $dbh->prepare('INSERT INTO record(rec_date,name,startTime,endTime,description) VALUES(?,?,?,?,?)');
+			$stmt->bindParam(1, $rec_date, PDO::PARAM_STR);
+			$stmt->bindParam(2, $name, PDO::PARAM_STR);
+			$stmt->bindParam(3, $startTime, PDO::PARAM_STR);
+			$stmt->bindParam(4, $endTime, PDO::PARAM_STR);
+			$stmt->bindParam(5, $description, PDO::PARAM_STR);
+			if(!$stmt->execute()){
+				$this->setMessage($stmt->errorInfo());
+				return false;
+			}
+	//assert($stmt->execute());
+		}catch (PDOException $e) {
+			$this->setMessage($e->getMessage());
+			return false;
+		}
+		return true;	
+	}
+
+
+	public function setMessage($message){
+		$this->message=$message;
+	}
+
+	public function getMessage(){
+		return $this->message;
+	}
 }

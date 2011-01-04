@@ -110,6 +110,9 @@ class TaskModel{
 	}
 
 	public function getMessage(){
+		if (is_array( $this->message)){
+			return implode("\n",$this->message);
+		}
 		return $this->message;
 	}
 }

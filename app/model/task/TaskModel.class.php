@@ -24,6 +24,19 @@ class TaskModel{
 		}
 		return array($days,$record);
 	}
+	public function getDayTasks($date){
+		$dbh = new PDO($GLOBALS["DSN"]);
+		$sql = "SELECT * FROM record where rec_date = '$date' order by startTime";
+
+		$rs = $dbh->query($sql);
+		$rs->setFetchMode(PDO::FETCH_ASSOC);
+		$tasks=array();
+		while($task=$rs->fetch())
+		{
+			$tasks[]=$task;
+		}
+		return $tasks;
+	}
 
 	public function delete($id){
 		try{
@@ -32,7 +45,7 @@ class TaskModel{
 			$stmt->bindParam(1, $id, PDO::PARAM_INT);
 			$stmt->execute();
 		}catch (PDOException $e) {
-			$this->setMessage($e->getMessage());:
+			$this->setMessage($e->getMessage());
 		}
 	}
 
@@ -73,6 +86,7 @@ class TaskModel{
 		//加入新的预定	
 		try{
 			$stmt = $dbh->prepare('INSERT INTO record(rec_date,name,startTime,endTime,description) VALUES(?,?,?,?,?)');
+
 			$stmt->bindParam(1, $rec_date, PDO::PARAM_STR);
 			$stmt->bindParam(2, $name, PDO::PARAM_STR);
 			$stmt->bindParam(3, $startTime, PDO::PARAM_STR);

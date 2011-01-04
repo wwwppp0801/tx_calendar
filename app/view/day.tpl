@@ -5,8 +5,8 @@
 <title><{$date}></title>
 <link href="room.css" rel="stylesheet" type="text/css">
 <link href="edit.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="js/jquery-1.2.6.pack.js"></script>
-<script type="text/javascript" src="js/edit.js"></script>
+<script type="text/javascript" src="/js/jquery-1.2.6.pack.js"></script>
+<script type="text/javascript" src="/js/edit.js"></script>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
     <th>结束时间</th>
     <th>&nbsp;</th>
 </tr>
-<{foreach from=$rows item=task}>
+<{foreach from=$tasks item=task}>
     <tr>
     <td><{$task.id}></td>
     <td><{$task.rec_date}></td>
@@ -36,11 +36,13 @@
     <td><{$task.phone}></td>
     <td style='text-align:center'><{$task.startTime}></td>
     <td style='text-align:center'><{$task.endTime}></td>
-    <td><a href='/task/delete?id={$row.id}&rec_date={$date}'>取消任务</a></td>
+    <td><a href='/task/delete?id=<{$task.id}>&rec_date=<{$task.rec_date}>'>取消任务</a></td>
     </tr>
+    <{foreachelse}>
+	<tr><td colspan="6"><h3>今日尚无任何任务</h3></td></tr>
+
 <{/foreach}>
 </table>
-    <{if !$hasRecord}><h3>今日尚无任何任务</h3><{/if}>
 <br>
 <h7><a href="/index"><u>返回</u></a></h7>
 

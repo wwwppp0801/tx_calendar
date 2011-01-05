@@ -78,7 +78,10 @@ class UrlMapper
             $action = new $className();
             $this->action = $action;
             return $action;
-        }
+		}elseif(method_exists($this->getController(),"{$actionName}Action")){
+			//支持直接在controller里面写action方法
+			return $this->getController();
+		}
         else
         {
             throw new SystemException("no action:$actionName -> $className ");
@@ -90,7 +93,10 @@ class UrlMapper
         if (method_exists($this->getAction(), $methodName) || method_exists($this->getAction(), '__call'))
         {
             return $methodName;
-        }
+        }elseif(method_exists($this->getController(),$this->getActionName()."Action")){
+			//支持直接在controller里面写action方法
+			return $this->getActionName()."Action";
+		}
         else
         {
             throw new SystemException("no method:{$this->controllerName } -> {$this->getActionName()} -> $methodName ");

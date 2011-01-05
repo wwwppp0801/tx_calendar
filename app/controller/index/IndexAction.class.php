@@ -3,6 +3,7 @@
 class IndexAction{
 	public function index(){
 		$data['user']=$_SESSION['user'];
+		$data['msg']=$_GET['msg'];
 
 		@$weekOffset=isset($_GET['week']) ? $_GET['week'] : 0;
 		$model=new TaskModel();

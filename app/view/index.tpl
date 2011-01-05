@@ -20,6 +20,9 @@
 
 <body>
 <p>
+<{if $msg}>
+<div class="errormsg" style="color: #FF0000;"><{$msg}></div>
+<{/if}>
 <h1 class="style2">soso calendar ☆ <span class="style4">请点击期望时间段进行操作</span></h1>
 <{include file='navBar.tpl'}>
 <p>

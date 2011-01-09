@@ -1,0 +1,5 @@
+* * * * * echo $(date) >> minute.log
+*/10 * * * * echo "10 min" $(date) >>minute.log
+*/2 * * * * echo "2 min" $(date) >>minute.log
+*/10 * * * * echo "10 min" $(date) >>minute.log
+23 * * * * echo "23 min" $(date) >>minute.log

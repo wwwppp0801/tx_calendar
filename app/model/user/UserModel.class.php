@@ -4,7 +4,7 @@ class UserModel{
 	public function delUser($username){
 		if($username!='admin'){
 			$dbh = new PDO($GLOBALS["DSN"]);
-			$sql = "delete from record_user where name=?";
+			$sql = "delete from t_record_user where name=?";
 			$stmt = $dbh->prepare($sql);
 			$stmt->bindParam(1, $username, PDO::PARAM_STR);
 			return $stmt->execute();
@@ -16,7 +16,7 @@ class UserModel{
 
 	public function addUser($name,$pass,$description=""){
 		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "insert into record_user(name,pass,description) values(?,?,?)";
+		$sql = "insert into t_record_user(name,pass,description) values(?,?,?)";
 		$stmt = $dbh->prepare($sql);
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
@@ -25,7 +25,7 @@ class UserModel{
 	}
 	public function getUser($name,$pass){
 		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "SELECT * FROM record_user where name = ? and pass=? ;";
+		$sql = "SELECT * FROM t_record_user where name = ? and pass=? ;";
 		$stmt = $dbh->prepare($sql);
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
@@ -41,7 +41,7 @@ class UserModel{
 	}
 	
 	public function updateUser($name,$pass,$description){
-		$sql="update record_user set pass=?,description=? where name=?";
+		$sql="update t_record_user set pass=?,description=? where name=?";
 		$dbh = new PDO($GLOBALS["DSN"]);
 		$stmt = $dbh->prepare($sql);
 		$stmt->bindParam(1, $pass, PDO::PARAM_STR);
@@ -51,7 +51,7 @@ class UserModel{
 	}
 	public function getAllUsers(){
 		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "SELECT * FROM record_user order by name;";
+		$sql = "SELECT * FROM t_record_user order by name;";
 		$rs = $dbh->query($sql);
 		$users=	$rs->fetchAll();
 		foreach ($users as &$user){

@@ -1,4 +1,4 @@
 #!/bin/sh
-rm -f room.db
-sqlite3 room.db '.read schema.sql';
-chmod 666 room.db
+rm -f calendar.db
+sqlite3 calendar.db '.read schema.sql';
+chmod 666 calendar.db

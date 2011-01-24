@@ -21,4 +21,4 @@ define("VERSION", 921);
 define("IS_DEBUG", $IS_DEBUG);
 session_start();
 
-$GLOBALS["DSN"]="sqlite:".ROOT_PATH."/db/room.db";
+$GLOBALS["DSN"]="sqlite:".ROOT_PATH."/db/calendar.db";

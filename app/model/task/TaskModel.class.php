@@ -7,17 +7,12 @@ class TaskModel{
 
 	public function getWeekTasks($weekOffset,$cal_id=false){
 		$record=array();
-		//$weekday= date('N',mktime(0,0,0,date('n'),date('j'),date('Y')));
 		$weekday=date('N');
 		for($i=0;$i<7;$i++){
 			$days[$i]=date('Y-m-d',mktime(0,0,0,date('n'),date('j')-$weekday+$i+1+$weekOffset*7,date('Y')));
 		}
 		$data['days']=$days;
 
-		//$dbh = new PDO($GLOBALS["DSN"]);
-		//$sql = "SELECT * FROM t_record WHERE rec_date>='{$days[0]}' and rec_date<='{$days[6]}' "
-		//	.($cal_id?" and cal_id={$cal_id} ":'')
-		//	." order by rec_date ";
 		if($cal_id){
 			$rawRecords=$this->pdoTmpl->queryForList("SELECT * FROM t_record WHERE rec_date>=? and rec_date<=? and cal_id=? order by rec_date",$days[0],$days[6],$cal_id);
 		}else{
@@ -75,24 +70,15 @@ class TaskModel{
 
 		//加入新的预定	
 		try{
-			$stmt = $dbh->prepare('INSERT INTO t_record(rec_date,name,startTime,endTime,description,cal_id) VALUES(?,?,?,?,?,?)');
-
-			$stmt->bindParam(1, $rec_date, PDO::PARAM_STR);
-			$stmt->bindParam(2, $name, PDO::PARAM_STR);
-			$stmt->bindParam(3, $startTime, PDO::PARAM_STR);
-			$stmt->bindParam(4, $endTime, PDO::PARAM_STR);
-			$stmt->bindParam(5, $description, PDO::PARAM_STR);
-			$stmt->bindParam(6, $cal_id, PDO::PARAM_STR);
-			if(!$stmt->execute()){
-				$this->setMessage($stmt->errorInfo());
-				return false;
-			}
+			$result=$this->pdoTmpl->insert('INSERT INTO t_record(rec_date,name,startTime,endTime,description,cal_id) VALUES(?,?,?,?,?,?)',
+				$rec_date,$name,$startTime,$endTime,$description,$cal_id
+			);
 	//assert($stmt->execute());
 		}catch (PDOException $e) {
 			$this->setMessage($e->getMessage());
 			return false;
 		}
-		return true;	
+		return $result;
 	}
 
 

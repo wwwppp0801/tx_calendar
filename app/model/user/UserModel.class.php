@@ -1,13 +1,13 @@
 <?php
 
 class UserModel{
+	private $pdoTmpl;
+	public function __construct(){
+		$this->pdoTmpl=new PDOTemplate($GLOBALS["DSN"]);
+	}
 	public function delUser($username){
 		if($username!='admin'){
-			$dbh = new PDO($GLOBALS["DSN"]);
-			$sql = "delete from t_record_user where name=?";
-			$stmt = $dbh->prepare($sql);
-			$stmt->bindParam(1, $username, PDO::PARAM_STR);
-			return $stmt->execute();
+			$this->pdoTmpl->execute("delete from t_record_user where name=?",$username);
 		}else{
 			Soso_Logger::info("can't del admin user");
 			return false;
@@ -15,24 +15,12 @@ class UserModel{
 	}
 
 	public function addUser($name,$pass,$description=""){
-		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "insert into t_record_user(name,pass,description) values(?,?,?)";
-		$stmt = $dbh->prepare($sql);
-		$stmt->bindParam(1, $name, PDO::PARAM_STR);
-		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
-		$stmt->bindParam(3, $description, PDO::PARAM_STR);
-		return $stmt->execute();
+		return $this->pdoTmpl->insert("insert into t_record_user(name,pass,description) values(?,?,?)",$name,$pass,$description);
 	}
 	public function getUser($name,$pass){
-		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "SELECT * FROM t_record_user where name = ? and pass=? ;";
-		$stmt = $dbh->prepare($sql);
-		$stmt->bindParam(1, $name, PDO::PARAM_STR);
-		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
-		$stmt->execute();
-		$stmt->setFetchMode(PDO::FETCH_ASSOC);
-		$user=	$stmt->fetch();
-		if($user){	$user['isAdmin']=($user['name']=="admin");
+		$user=$this->pdoTmpl->queryForObject("SELECT * FROM t_record_user where name = ? and pass=? ",$name,$pass);
+		if($user){	
+			$user['isAdmin']=($user['name']=="admin");
 			return $user;
 		}else{
 			return false;
@@ -41,19 +29,11 @@ class UserModel{
 	}
 	
 	public function updateUser($name,$pass,$description){
-		$sql="update t_record_user set pass=?,description=? where name=?";
-		$dbh = new PDO($GLOBALS["DSN"]);
-		$stmt = $dbh->prepare($sql);
-		$stmt->bindParam(1, $pass, PDO::PARAM_STR);
-		$stmt->bindParam(2, $description, PDO::PARAM_STR);
-		$stmt->bindParam(3, $name, PDO::PARAM_STR);
-		return $stmt->execute();
+		return $this->pdoTmpl->update("update t_record_user set pass=?,description=? where name=?",$pass,$description,$name);
 	}
-	public function getAllUsers(){
-		$dbh = new PDO($GLOBALS["DSN"]);
-		$sql = "SELECT * FROM t_record_user order by name;";
-		$rs = $dbh->query($sql);
-		$users=	$rs->fetchAll();
+	
+	public function getAllUsers($offset=0,$length=10){
+		$users = $this->pdoTmpl->queryForList('SELECT * FROM t_record_user order by name');
 		foreach ($users as &$user){
 			$user['isAdmin']=$user['name']=="admin";
 		}

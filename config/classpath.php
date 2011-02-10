@@ -13,6 +13,8 @@ function __autoload($classname)
 		"DefaultView"=>"winphp/base/DefaultView.class.php",
 		"DefaultViewSetting"=>"config/DefaultViewSetting.class.php",
 		"Utils"=>"lib/Utils.class.php",
+		"ArrayUtils"=>"lib/ArrayUtils.class.php",
+		"DatetimeUtils"=>"lib/DatetimeUtils.class.php",
 		"Soso_Logger"=>"lib/Logger.class.php",
 		"PDOTemplate"=>"winphp/db/PDOTemplate.class.php",
 	);

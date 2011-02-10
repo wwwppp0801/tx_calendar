@@ -28,5 +28,7 @@ CREATE TABLE t_record_user (
   pass varchar,
   description TEXT
 );
-INSERT INTO "t_record_user" VALUES('admin','1234','代码工人');
+INSERT INTO t_record_user VALUES('admin','1234','代码工人');
+INSERT INTO t_calendar(cal_type,create_time,name,description) VALUES('_default',date('now'),'admin_default','默认');
+INSERT INTO t_calendar_user(cal_id,name) VALUES(1,'admin');
 COMMIT;

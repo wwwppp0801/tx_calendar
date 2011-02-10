@@ -1,4 +1,4 @@
-a:link{
+a:link {
 	text-decoration: none;
 	color: blue;
 }
@@ -76,29 +76,19 @@ table td,table th{
 	padding: 5px;
 }
 
-table.weekdays{
-	width:800px;
-}
-
 table.weekdays td.used{
 	background-color:#fffd6e;
 	width:95px;
 	cursor:help;
 }
 
-table.weekdays td.used:hover{
+table.weekdays td.used:hover {
    color:#660000;
-  	font-size: 1.3em;
-	font-weight:bold;
 }
 
-table.weekdays th.day{
-	width:95px;
-}
 
 table.weekdays td.notUsed{
     cursor:pointer;
-	width:95px;
     /*background-color:#ffffff;*/
 }
 

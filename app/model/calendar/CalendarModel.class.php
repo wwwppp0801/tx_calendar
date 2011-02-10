@@ -11,8 +11,8 @@ class CalendarModel{
 	}
 
 	public function getCalendarsByUser($username){
-		$calUsers=$this->pdoTmpl->queryForList("select * from t_calendar_user where name=?",$username);
-		$ids=ArrayUtils::extrcat($calUsers,'cal_id');
+		$userCals=$this->pdoTmpl->queryForList("select * from t_calendar_user where name=?",$username);
+		$ids=ArrayUtils::extract($userCals,'cal_id');
 		$cals=$this->pdoTmpl->queryForList("select * from t_calendar where id in ?",$ids);
 		return $cals;
 	}

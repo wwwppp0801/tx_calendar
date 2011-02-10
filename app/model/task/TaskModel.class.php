@@ -6,27 +6,23 @@ class TaskModel{
 	}
 
 	public function getWeekTasks($weekOffset,$cal_id=false){
-		$record=array();
-		$weekday=date('N');
-		for($i=0;$i<7;$i++){
-			$days[$i]=date('Y-m-d',mktime(0,0,0,date('n'),date('j')-$weekday+$i+1+$weekOffset*7,date('Y')));
-		}
-		$data['days']=$days;
+		$days=DatetimeUtils::getWeekDays($weekOffset);
 
-		if($cal_id){
+		if($cal_id!==false){
 			$rawRecords=$this->pdoTmpl->queryForList("SELECT * FROM t_record WHERE rec_date>=? and rec_date<=? and cal_id=? order by rec_date",$days[0],$days[6],$cal_id);
 		}else{
 			$rawRecords=$this->pdoTmpl->queryForList("SELECT * FROM t_record WHERE rec_date>=? and rec_date<=? order by rec_date",$days[0],$days[6]);
 		}
+		$records=array();
 		foreach($rawRecords as $row)
 		{
 			//记录的那天是星期几
 			$date_week = date('N',strtotime($row['rec_date']));
 			for ($i=$row['startTime'];$i<$row['endTime'];$i++){
-				$record[$date_week-1][$i-8]=$row;
+				$records[$date_week-1][$i-8]=$row;
 			}
 		}
-		return array($days,$record);
+		return $records;
 	}
 	public function getDayTasks($date){
 		$tasks = $this->pdoTmpl->queryForList("SELECT * FROM t_record where rec_date = ? order by startTime",$date);
@@ -41,7 +37,7 @@ class TaskModel{
 		return $this->pdoTmpl->queryForObject('SELECT * FROM t_record where id = ?',$id);
 	}
 
-	public function insert($name,$rec_date,$startTime,$endTime,$description,$cal_id){
+	public function insert($name,$rec_date,$startTime,$endTime,$description,$cal_id=0){
 		if($startTime>=$endTime){
 			$this->setMessage("开始时间必须在结束时间之前");
 			return false;
